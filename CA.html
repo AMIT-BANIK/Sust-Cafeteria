@@ -6,6 +6,7 @@
   <title>SUST Digital Cafeteria</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="CA.css"/>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script> <!-- Socket.IO -->
 </head>
 <body>
 
@@ -21,70 +22,12 @@
   <!-- Menu Section -->
   <div id="menu">
     <h1>🍽️ Available Food</h1>
-    <div class="menu-grid">
-      <div class="food-card">
-        <h3>Paratha</h3>
-        <p>Tk10</p>
-        <div class="qty-control">
-          <button class="decrease" data-name="Paratha" data-price="10">-</button>
-          <span class="qty" data-name="Paratha">0</span>
-          <button class="increase" data-name="Paratha" data-price="10">+</button>
-        </div>
-      </div>
-
-      <div class="food-card">
-        <h3>Egg</h3>
-        <p>Tk15</p>
-        <div class="qty-control">
-          <button class="decrease" data-name="Egg" data-price="15">-</button>
-          <span class="qty" data-name="Egg">0</span>
-          <button class="increase" data-name="Egg" data-price="15">+</button>
-        </div>
-      </div>
-
-      <div class="food-card">
-        <h3>Rice</h3>
-        <p>Tk20</p>
-        <div class="qty-control">
-          <button class="decrease" data-name="Rice" data-price="20">-</button>
-          <span class="qty" data-name="Rice">0</span>
-          <button class="increase" data-name="Rice" data-price="20">+</button>
-        </div>
-      </div>
-
-      <div class="food-card">
-        <h3>Mutton</h3>
-        <p>Tk180</p>
-        <div class="qty-control">
-          <button class="decrease" data-name="Mutton" data-price="180">-</button>
-          <span class="qty" data-name="Mutton">0</span>
-          <button class="increase" data-name="Mutton" data-price="180">+</button>
-        </div>
-      </div>
-
-      <div class="food-card">
-        <h3>Chicken</h3>
-        <p>Tk40</p>
-        <div class="qty-control">
-          <button class="decrease" data-name="Chicken" data-price="40">-</button>
-          <span class="qty" data-name="Chicken">0</span>
-          <button class="increase" data-name="Chicken" data-price="40">+</button>
-        </div>
-      </div>
-
-      <div class="food-card">
-        <h3>Fish Curry</h3>
-        <p>Tk55</p>
-        <div class="qty-control">
-          <button class="decrease" data-name="Fish Curry" data-price="55">-</button>
-          <span class="qty" data-name="Fish Curry">0</span>
-          <button class="increase" data-name="Fish Curry" data-price="55">+</button>
-        </div>
-      </div>
+    <div id="menu-container" class="menu-grid">
+      <!-- Menu items will be rendered here dynamically -->
     </div>
   </div>
 
-  
+  <!-- Order Summary -->
   <div id="orderSummary">
     <h2>🛒 Your Order</h2>
     <ul id="summary-list">
@@ -96,6 +39,7 @@
 
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="CA.js"></script>
 </body>
 </html>
