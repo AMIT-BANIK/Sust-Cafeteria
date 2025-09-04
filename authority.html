@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cafeteria Authority Panel</title>
+  <link rel="stylesheet" href="authority.css">
+</head>
+<body>
+  <header>
+    <h1>🍽️ Cafeteria Authority Panel</h1>
+  </header>
+
+  <div class="container">
+    <!-- Orders Panel -->
+    <div id="ordersPanel" class="panel">
+      <div class="panel-header">
+        <h2>Live Orders</h2>
+        <button id="viewReportBtn" class="report-btn">View Report</button>
+      </div>
+
+      <table id="ordersTable">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Items</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ORD001</td>
+            <td>Burger, Coke</td>
+            <td>
+              <label class="status-label">
+                <input type="checkbox" class="status-checkbox">
+                <span>Pending</span>
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>ORD002</td>
+            <td>Pizza</td>
+            <td>
+              <label class="status-label">
+                <input type="checkbox" class="status-checkbox">
+                <span>Pending</span>
+              </label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Menu Management Panel -->
+    <div class="panel menu-management">
+      <h2>Manage Menu</h2>
+      <form id="addItemForm">
+        <input type="text" id="itemName" placeholder="Item Name" required>
+        <input type="number" id="itemPrice" placeholder="Price" required>
+        <button type="submit">Add Item</button>
+      </form>
+
+      <table id="menuTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Items appear here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="authority.js"></script>
+</body>
+</html>

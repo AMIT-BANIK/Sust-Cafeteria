@@ -1,0 +1,26 @@
+{
+  "name": "sust-cafeteria",
+  "version": "1.0.0",
+  "description": "",
+  "main": "authority.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AMIT-BANIK/Sust-Cafeteria.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AMIT-BANIK/Sust-Cafeteria/issues"
+  },
+  "homepage": "https://github.com/AMIT-BANIK/Sust-Cafeteria#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.4",
+    "socket.io": "^4.8.1"
+  }
+}

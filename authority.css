@@ -1,0 +1,279 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: lightcyan;
+  color: #333;
+}
+
+/* Header */
+header {
+  width: 100%;
+  padding: 25px 40px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #b71c1c;
+}
+
+/* Container */
+.container {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 30px auto;
+}
+
+/* Panels */
+.panel {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 
+    0 4px 6px rgba(0,0,0,0.1),
+    0 8px 20px rgba(0,0,0,0.15),
+    0 12px 40px rgba(0,0,0,0.2);
+}
+
+/* Panel Header */
+#ordersPanel .panel-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+#ordersPanel .panel-header h2 {
+  flex: 1;
+  text-align: center;
+  color:black;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* View Report Button */
+#ordersPanel .report-btn {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  padding: 8px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  background: linear-gradient(135deg,#4a90e2,#357ABD);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#ordersPanel .report-btn:hover {
+  background: linear-gradient(135deg,#357ABD,#2a5a9e);
+  transform: scale(1.05);
+}
+
+/* Orders Table */
+#ordersPanel table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#ordersPanel thead th {
+  background: #ff5c5c;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+#ordersPanel tbody tr {
+  background: #fff;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#ordersPanel tbody tr:nth-child(even) {
+  background: #f7f9fc;
+}
+
+#ordersPanel tbody tr:hover {
+  background: #e3f2fd;
+  transform: scale(1.01);
+}
+
+#ordersPanel tbody td {
+  padding: 12px 10px;
+  text-align: center;
+  vertical-align: middle;
+  color: #333;
+}
+
+/* Status Label */
+.status-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.status-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.status-label input:not(:checked) + span {
+  color: #333;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.status-label input:checked + span {
+  background: #66bb6a; /* middle green */
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+/* Menu Table Styling - Updated for better visibility */
+#menuTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  margin-top: 15px;
+}
+
+/* Table Header */
+#menuTable thead th {
+  background: #357ABD;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 12px 10px;
+  text-align: center;
+  border: 1px solid #ddd; /* Added border */
+}
+
+/* Table Body Rows */
+#menuTable tbody tr {
+  background: #fff;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#menuTable tbody tr:nth-child(even) {
+  background: #f7f9fc;
+}
+
+#menuTable tbody tr:hover {
+  background: #e0f7fa; /* subtle hover color */
+  transform: scale(1.01);
+}
+
+/* Table Cells */
+#menuTable tbody td {
+  padding: 12px 10px;
+  text-align: center;
+  vertical-align: middle;
+  color: #333;
+  border: 1px solid #ddd; /* Added border */
+}
+
+/* Edit & Delete Buttons */
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.edit-btn {
+  background: linear-gradient(135deg,#4a90e2,#357ABD);
+  color: #fff;
+  margin-right: 6px;
+}
+
+.edit-btn:hover {
+  background: linear-gradient(135deg,#357ABD,#2a5a9e);
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  background: linear-gradient(135deg,#ff5c5c,#e04a4a);
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg,#e04a4a,#c43a3a);
+  transform: scale(1.05);
+}
+
+
+/* Menu form */
+.menu-management {
+  flex: 1;
+  max-width: 350px;
+}
+
+.menu-management form input {
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.menu-management form input:focus {
+  border-color: #ff5c5c;
+  box-shadow: 0 0 5px rgba(255,92,92,0.5);
+  outline: none;
+}
+
+.menu-management form button {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg,#ff6b6b,#ff4c4c);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.menu-management form button:hover {
+  background: linear-gradient(135deg,#ff4c4c,#ff1f1f);
+  transform: scale(1.03);
+}
