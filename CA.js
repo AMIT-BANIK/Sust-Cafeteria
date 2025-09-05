@@ -10,14 +10,11 @@ async function loadMenu() {
   try {
     const res = await fetch("http://localhost:3000/menu");
     const items = await res.json();
-
-    
     menuContainer.innerHTML = "";
 
     items.forEach(item => {
       const div = document.createElement("div");
       div.classList.add("food-card");
-
       div.innerHTML = `
         <h3>${item.name}</h3>
         <p>Tk${item.price}</p>
@@ -27,7 +24,6 @@ async function loadMenu() {
           <button class="increase" data-name="${item.name}" data-price="${item.price}">+</button>
         </div>
       `;
-
       menuContainer.appendChild(div);
     });
 
@@ -42,7 +38,6 @@ function attachMenuListeners() {
     btn.addEventListener("click", () => {
       const name = btn.dataset.name;
       const price = parseInt(btn.dataset.price);
-
       if (!order[name]) order[name] = { qty: 0, price };
       order[name].qty++;
       updateQtyDisplay(name);
@@ -83,13 +78,10 @@ function updateSummary() {
     }
   }
 
-  if (empty) {
-    summaryList.innerHTML = "<li>No items selected</li>";
-  }
+  if (empty) summaryList.innerHTML = "<li>No items selected</li>";
 
   summaryPrice.innerText = `Tk ${total}`;
 }
-
 
 pOrderBtn.addEventListener("click", () => {
   if (summaryPrice.innerText === "Tk 0") return alert("Please select some items first!");
@@ -140,6 +132,8 @@ function showFinalOrder() {
   summaryList.appendChild(successBanner);
 
   let total = 0;
+  const orderItems = [];
+
   for (const item in order) {
     if (order[item].qty > 0) {
       const li = document.createElement("li");
@@ -147,6 +141,8 @@ function showFinalOrder() {
       li.innerHTML = `${item} x ${order[item].qty} <span>Tk ${order[item].qty * order[item].price}</span>`;
       summaryList.appendChild(li);
       total += order[item].qty * order[item].price;
+
+      orderItems.push({ name: item, qty: order[item].qty, price: order[item].price });
     }
   }
 
@@ -161,13 +157,16 @@ function showFinalOrder() {
   summaryList.appendChild(orderCodeLi);
 
   summaryPrice.innerText = `Tk ${total}`;
+
+  fetch("http://localhost:3000/orders", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ items: orderItems, total, order_code: orderCode })
+  })
+  .then(res => res.json())
+  .then(data => console.log("Order sent to authority:", data))
+  .catch(err => console.error("Order sending error:", err));
 }
 
-
-socket.on("menuUpdated", () => {
-  console.log("Menu updated, reloading...");
-  loadMenu();
-});
-
-
+socket.on("menuUpdated", () => loadMenu());
 loadMenu();

@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Cafeteria Authority Panel</title>
   <link rel="stylesheet" href="authority.css">
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
 </head>
 <body>
   <header>
@@ -11,47 +12,32 @@
   </header>
 
   <div class="container">
-    <!-- Orders Panel -->
     <div id="ordersPanel" class="panel">
       <div class="panel-header">
         <h2>Live Orders</h2>
-        <button id="viewReportBtn" class="report-btn">View Report</button>
+        <div class="header-controls">
+          <button id="viewReportBtn" class="report-btn">View Report</button>
+          <input type="date" id="orderDateFilter">
+        </div>
       </div>
 
       <table id="ordersTable">
         <thead>
           <tr>
-            <th>Order ID</th>
+            <th>ID</th>
+            <th>Order Code</th>
             <th>Items</th>
+            <th>Total</th>
             <th>Status</th>
+            <th>Created At</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>ORD001</td>
-            <td>Burger, Coke</td>
-            <td>
-              <label class="status-label">
-                <input type="checkbox" class="status-checkbox">
-                <span>Pending</span>
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>ORD002</td>
-            <td>Pizza</td>
-            <td>
-              <label class="status-label">
-                <input type="checkbox" class="status-checkbox">
-                <span>Pending</span>
-              </label>
-            </td>
-          </tr>
+    
         </tbody>
       </table>
     </div>
 
-    <!-- Menu Management Panel -->
     <div class="panel menu-management">
       <h2>Manage Menu</h2>
       <form id="addItemForm">
@@ -69,12 +55,12 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Items appear here -->
+          
         </tbody>
       </table>
     </div>
   </div>
-
+  <script src="/socket.io/socket.io.js"></script>
   <script src="authority.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
   <title>SUST Digital Cafeteria</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="CA.css"/>
-  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script> <!-- Socket.IO -->
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
 </head>
 <body>
 
@@ -27,7 +27,6 @@
     </div>
   </div>
 
-  <!-- Order Summary -->
   <div id="orderSummary">
     <h2>🛒 Your Order</h2>
     <ul id="summary-list">
@@ -37,6 +36,13 @@
     <button id="pOrder">Place Order</button>
   </div>
 
+  <!-- Payment Success -->
+  <div id="paymentSuccess" >
+    ✅ Payment Successful!<br>
+    <strong>Order Code:</strong> <span id="orderCode"></span><br>
+    <strong>Items:</strong> <span id="orderItems"></span><br>
+    <strong>Total:</strong> <span id="orderTotal"></span>
+  </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

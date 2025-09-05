@@ -1,4 +1,3 @@
-/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +10,6 @@ body {
   color: #333;
 }
 
-/* Header */
 header {
   width: 100%;
   padding: 25px 40px;
@@ -28,7 +26,6 @@ header h1 {
   color: #b71c1c;
 }
 
-/* Container */
 .container {
   display: flex;
   gap: 20px;
@@ -36,7 +33,6 @@ header h1 {
   margin: 30px auto;
 }
 
-/* Panels */
 .panel {
   flex: 1;
   background: #fff;
@@ -48,28 +44,31 @@ header h1 {
     0 12px 40px rgba(0,0,0,0.2);
 }
 
-/* Panel Header */
 #ordersPanel .panel-header {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 20px;
+  margin-bottom: 5px;
   position: relative;
-  margin-bottom: 15px;
 }
 
 #ordersPanel .panel-header h2 {
   flex: 1;
-  text-align: center;
-  color:black;
-  font-size: 22px;
+  text-align: center;  
+  color: black;
+  font-size: 28px;
   font-weight: 600;
 }
 
-/* View Report Button */
+#ordersPanel .header-controls {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-end;  
+  gap: 6px;               
+}
+
 #ordersPanel .report-btn {
-  position: absolute;
-  right: 10px;
-  top: 0;
   padding: 8px 16px;
   font-weight: bold;
   font-size: 14px;
@@ -87,7 +86,22 @@ header h1 {
   transform: scale(1.05);
 }
 
-/* Orders Table */
+#orderDateFilter {
+  width: 180px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+#orderDateFilter:focus {
+  border-color: #357ABD;
+  box-shadow: 0 0 5px rgba(53,122,189,0.5);
+  outline: none;
+}
+
 #ordersPanel table {
   width: 100%;
   border-collapse: separate;
@@ -129,7 +143,6 @@ header h1 {
   color: #333;
 }
 
-/* Status Label */
 .status-label {
   display: flex;
   justify-content: center;
@@ -155,13 +168,12 @@ header h1 {
 }
 
 .status-label input:checked + span {
-  background: #66bb6a; /* middle green */
+  background: #66bb6a; 
   color: #fff;
   padding: 4px 10px;
   border-radius: 8px;
 }
 
-/* Menu Table Styling - Updated for better visibility */
 #menuTable {
   width: 100%;
   border-collapse: collapse;
@@ -169,7 +181,6 @@ header h1 {
   margin-top: 15px;
 }
 
-/* Table Header */
 #menuTable thead th {
   background: #357ABD;
   color: #fff;
@@ -178,10 +189,9 @@ header h1 {
   font-size: 14px;
   padding: 12px 10px;
   text-align: center;
-  border: 1px solid #ddd; /* Added border */
+  border: 1px solid #ddd; 
 }
 
-/* Table Body Rows */
 #menuTable tbody tr {
   background: #fff;
   transition: background 0.3s, transform 0.2s;
@@ -192,20 +202,18 @@ header h1 {
 }
 
 #menuTable tbody tr:hover {
-  background: #e0f7fa; /* subtle hover color */
+  background: #e0f7fa; 
   transform: scale(1.01);
 }
 
-/* Table Cells */
 #menuTable tbody td {
   padding: 12px 10px;
   text-align: center;
   vertical-align: middle;
   color: #333;
-  border: 1px solid #ddd; /* Added border */
+  border: 1px solid #ddd; 
 }
 
-/* Edit & Delete Buttons */
 .edit-btn,
 .delete-btn {
   padding: 6px 12px;
@@ -238,8 +246,6 @@ header h1 {
   transform: scale(1.05);
 }
 
-
-/* Menu form */
 .menu-management {
   flex: 1;
   max-width: 350px;

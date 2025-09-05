@@ -1,20 +1,5 @@
-document.querySelectorAll('.status-checkbox').forEach(checkbox => {
-  checkbox.addEventListener('change', function() {
-    const span = this.nextElementSibling;
-    const row = this.closest('tr');
-    if(this.checked){
-      span.textContent = 'Served';
-      row.style.backgroundColor = '#66bb6a'; 
-      span.style.color = '#fff';
-    } else {
-      span.textContent = 'Pending';
-      row.style.backgroundColor = '';
-      span.style.color = '#333';
-    }
-  });
-});
+const API_BASE = "http://localhost:3000";
 
-const API_BASE = "http://localhost:3000"
 const addItemForm = document.getElementById('addItemForm');
 const menuTableBody = document.querySelector('#menuTable tbody');
 
@@ -36,10 +21,7 @@ function loadMenu() {
         menuTableBody.appendChild(row);
       });
     })
-    .catch(err => {
-      console.error("Error loading menu:", err);
-      alert("Failed to load menu. Check server and table name.");
-    });
+    .catch(err => console.error("Error loading menu:", err));
 }
 
 addItemForm.addEventListener('submit', (e) => {
@@ -47,24 +29,19 @@ addItemForm.addEventListener('submit', (e) => {
   const name = document.getElementById('itemName').value.trim();
   const price = document.getElementById('itemPrice').value;
 
-  if (!name || price === "") {
-    return alert("Please enter item name and price.");
-  }
+  if (!name || price === "") return alert("Please enter item name and price.");
 
   fetch(`${API_BASE}/menu`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, price })
   })
-    .then(res => res.ok ? res.json() : res.json().then(e => Promise.reject(e)))
-    .then(() => {
-      addItemForm.reset();
-      loadMenu();
-    })
-    .catch(err => {
-      console.error("Add error:", err);
-      alert(`Failed to add item: ${err.error || 'server error'}`);
-    });
+  .then(res => res.ok ? res.json() : res.json().then(e => Promise.reject(e)))
+  .then(() => {
+    addItemForm.reset();
+    loadMenu();
+  })
+  .catch(err => alert(`Failed to add item: ${err.error || 'server error'}`));
 });
 
 menuTableBody.addEventListener('click', (e) => {
@@ -76,10 +53,7 @@ menuTableBody.addEventListener('click', (e) => {
     fetch(`${API_BASE}/menu/${id}`, { method: "DELETE" })
       .then(res => res.ok ? res.json() : res.json().then(e => Promise.reject(e)))
       .then(() => loadMenu())
-      .catch(err => {
-        console.error("Delete error:", err);
-        alert(`Failed to delete: ${err.error || 'server error'}`);
-      });
+      .catch(err => alert(`Failed to delete: ${err.error || 'server error'}`));
   }
 
   if (btn.classList.contains('edit-btn')) {
@@ -104,11 +78,91 @@ menuTableBody.addEventListener('click', (e) => {
     })
       .then(res => res.ok ? res.json() : res.json().then(e => Promise.reject(e)))
       .then(() => loadMenu())
-      .catch(err => {
-        console.error("Update error:", err);
-        alert(`Failed to update: ${err.error || 'server error'}`);
-      });
+      .catch(err => alert(`Failed to update: ${err.error || 'server error'}`));
   }
 });
 
 loadMenu();
+
+const ordersTableBody = document.querySelector("#ordersTable tbody");
+const socket = io(API_BASE);
+
+function loadOrders() {
+  fetch(`${API_BASE}/orders`)
+    .then(res => res.json())
+    .then(data => {
+      ordersTableBody.innerHTML = "";
+      data.forEach(order => {
+        appendOrderRow(order);
+      });
+    })
+    .catch(err => console.error("Error loading orders:", err));
+}
+
+function appendOrderRow(order) {
+  const tr = document.createElement("tr");
+
+  const itemsStr = formatItems(order.items);
+
+  tr.innerHTML = `
+    <td>${order.id}</td>
+    <td>${order.order_code}</td>
+    <td>${itemsStr}</td>
+    <td>Tk ${order.total}</td>
+    <td>
+      <select class="status-select" data-id="${order.id}">
+        <option value="Pending" ${order.status === "Pending" ? "selected" : ""}>Pending</option>
+        <option value="Served" ${order.status === "Served" ? "selected" : ""}>Served</option>
+      </select>
+    </td>
+    <td>${new Date(order.created_at).toLocaleString()}</td>
+  `;
+
+  if (order.status === "Served") {
+    tr.style.backgroundColor = "#d4edda"; 
+  }
+
+  ordersTableBody.prepend(tr); 
+  attachStatusListener(tr.querySelector(".status-select"), tr);
+}
+
+function formatItems(items) {
+  let parsedItems = [];
+  try {
+    parsedItems = typeof items === "string" ? JSON.parse(items) : items;
+  } catch (err) {
+    console.error("Failed to parse order items:", err);
+  }
+  return parsedItems.map(i => `${i.name} x ${i.qty}`).join(", ");
+}
+
+function attachStatusListener(select, row) {
+  select.addEventListener("change", () => {
+    const id = select.dataset.id;
+    const status = select.value;
+
+    fetch(`${API_BASE}/orders/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status })
+    })
+    .then(res => res.json())
+    .then(() => {
+      console.log(`Order ${id} status updated to ${status}`);
+
+      if (status === "Served") {
+        row.style.backgroundColor = "#4fac4fff"; 
+      } else {
+        row.style.backgroundColor = ""; 
+      }
+    })
+    .catch(err => console.error("Error updating status:", err));
+  });
+}
+
+socket.on("newOrder", order => {
+  console.log("New order received:", order);
+  appendOrderRow(order);
+});
+
+loadOrders();
