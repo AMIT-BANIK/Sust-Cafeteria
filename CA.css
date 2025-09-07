@@ -204,6 +204,7 @@ header .logo img.cart-logo {
   font-weight: bold;
   color: #ff6b6b; 
   font-size: 18px;
+  display:none;
 }
 #summary-list input:focus {
   border-color: #ff5c5c; 
@@ -268,7 +269,6 @@ header .logo img.cart-logo {
   padding-bottom: 5px;
 }
 
-
 .order-code {
   margin-top: 10px;
   font-weight: bold;
@@ -306,3 +306,31 @@ header .logo img.cart-logo {
 .hidden {
   display: none;
 }
+
+#exitBtn {
+  background-color: #ff4d4f; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  transition: all 0.2s ease-in-out;
+  display: block;       
+  margin: 20px auto;    
+}
+
+#exitBtn:hover {
+  background-color: #ff7875; /* slightly lighter red on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+}
+
+#exitBtn:active {
+  background-color: #d9363e; /* darker red when clicked */
+  transform: translateY(0);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+

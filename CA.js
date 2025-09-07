@@ -1,7 +1,7 @@
 const order = {};
 const summaryList = document.getElementById("summary-list");
 const summaryPrice = document.getElementById("summary-price");
-const pOrderBtn = document.getElementById("pOrder");
+let pOrderBtn = document.getElementById("pOrder"); // track current button
 
 const socket = io("http://localhost:3000");
 const menuContainer = document.getElementById("menu-container");
@@ -59,7 +59,7 @@ function attachMenuListeners() {
 
 function updateQtyDisplay(name) {
   const qtyEl = document.querySelector(`.qty[data-name="${name}"]`);
-  if(qtyEl) qtyEl.innerText = order[name].qty;
+  if (qtyEl) qtyEl.innerText = order[name].qty;
 }
 
 function updateSummary() {
@@ -83,44 +83,70 @@ function updateSummary() {
   summaryPrice.innerText = `Tk ${total}`;
 }
 
-pOrderBtn.addEventListener("click", () => {
-  if (summaryPrice.innerText === "Tk 0") return alert("Please select some items first!");
+function attachPlaceOrderHandler(button) {
+  button.addEventListener("click", () => {
+    if (summaryPrice.innerText === "Tk 0") return alert("Please select some items first!");
+    button.remove();
+    const exitBtn = document.createElement("button");
+    exitBtn.id = "exitBtn";
+    exitBtn.textContent = "Exit";
+    document.getElementById("orderSummary").appendChild(exitBtn);
 
-  summaryList.innerHTML = `
-    <li>Enter your phone number:</li>
-    <li><input type="text" id="phone-input" placeholder="01XXXXXXXXX"/></li>
-    <li><button id="phone-submit">Submit</button></li>
-  `;
+    exitBtn.addEventListener("click", () => {
+      for (const item in order) {
+        order[item].qty = 0;
+      }
+      summaryList.innerHTML = "<li>No items selected</li>";
+      summaryPrice.innerText = "Tk 0";
 
-  document.getElementById("phone-submit").addEventListener("click", () => {
-    const phone = document.getElementById("phone-input").value;
-    if (!/^01\d{9}$/.test(phone)) return alert("Invalid phone number!");
-
+      document.querySelectorAll(".qty").forEach(qtyEl => qtyEl.innerText = "0");
+      exitBtn.remove();
+      const newPlaceOrder = document.createElement("button");
+      newPlaceOrder.id = "pOrder";
+      newPlaceOrder.textContent = "Place Order";
+      document.getElementById("orderSummary").appendChild(newPlaceOrder);
+      pOrderBtn = newPlaceOrder;
+      attachPlaceOrderHandler(pOrderBtn);
+    });
     summaryList.innerHTML = `
-      <li>OTP sent to ${phone}</li>
-      <li><input type="text" id="otp-input" placeholder="Enter OTP"/></li>
-      <li><button id="otp-submit">Submit OTP</button></li>
+      <li>Enter your phone number:</li>
+      <li><input type="text" id="phone-input" placeholder="01XXXXXXXXX"/></li>
+      <li><button id="phone-submit">Submit</button></li>
     `;
 
-    document.getElementById("otp-submit").addEventListener("click", () => {
-      const otp = document.getElementById("otp-input").value;
-      if (otp !== "1234") return alert("Invalid OTP! (Demo: 1234)");
+    document.getElementById("phone-submit").addEventListener("click", () => {
+      const phone = document.getElementById("phone-input").value;
+      if (!/^01\d{9}$/.test(phone)) return alert("Invalid phone number!");
 
       summaryList.innerHTML = `
-        <li>Enter your Bkash PIN:</li>
-        <li><input type="password" id="pin-input" placeholder="Enter PIN"/></li>
-        <li><button id="pin-submit">Submit PIN</button></li>
+        <li>OTP sent to ${phone}</li>
+        <li><input type="text" id="otp-input" placeholder="Enter OTP"/></li>
+        <li><button id="otp-submit">Submit OTP</button></li>
       `;
 
-      document.getElementById("pin-submit").addEventListener("click", () => {
-        const pin = document.getElementById("pin-input").value;
-        if (pin !== "0000") return alert("Incorrect PIN! (Demo: 0000)");
+      document.getElementById("otp-submit").addEventListener("click", () => {
+        const otp = document.getElementById("otp-input").value;
+        if (otp !== "1234") return alert("Invalid OTP! (Demo: 1234)");
 
-        showFinalOrder();
+        summaryList.innerHTML = `
+          <li>Enter your Bkash PIN:</li>
+          <li><input type="password" id="pin-input" placeholder="Enter PIN"/></li>
+          <li><button id="pin-submit">Submit PIN</button></li>
+        `;
+
+        document.getElementById("pin-submit").addEventListener("click", () => {
+          const pin = document.getElementById("pin-input").value;
+          if (pin !== "0000") return alert("Incorrect PIN! (Demo: 0000)");
+
+          showFinalOrder();
+        });
       });
     });
   });
-});
+}
+
+// Initial handler for the original button
+attachPlaceOrderHandler(pOrderBtn);
 
 function showFinalOrder() {
   const orderCode = "SUST" + Math.floor(Math.random() * 9000 + 1000);
