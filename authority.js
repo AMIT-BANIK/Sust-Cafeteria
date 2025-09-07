@@ -2,7 +2,11 @@ const API_BASE = "http://localhost:3000";
 
 const addItemForm = document.getElementById('addItemForm');
 const menuTableBody = document.querySelector('#menuTable tbody');
+const ordersTableBody = document.querySelector("#ordersTable tbody");
+const orderDateFilter = document.getElementById("orderDateFilter");
+const socket = io(API_BASE);
 
+// ================= Menu Management =================
 function loadMenu() {
   fetch(`${API_BASE}/menu`)
     .then(res => res.json())
@@ -84,17 +88,27 @@ menuTableBody.addEventListener('click', (e) => {
 
 loadMenu();
 
-const ordersTableBody = document.querySelector("#ordersTable tbody");
-const socket = io(API_BASE);
 
-function loadOrders() {
+orderDateFilter.addEventListener("change", () => {
+  const selectedDate = orderDateFilter.value; 
+  loadOrders(selectedDate);
+});
+
+function loadOrders(filterDate = "") {
   fetch(`${API_BASE}/orders`)
     .then(res => res.json())
     .then(data => {
       ordersTableBody.innerHTML = "";
-      data.forEach(order => {
-        appendOrderRow(order);
-      });
+
+      let filteredOrders = data;
+      if (filterDate) {
+        filteredOrders = data.filter(order => {
+          const orderDate = new Date(order.created_at).toISOString().split('T')[0];
+          return orderDate === filterDate;
+        });
+      }
+
+      filteredOrders.forEach(order => appendOrderRow(order));
     })
     .catch(err => console.error("Error loading orders:", err));
 }
@@ -160,9 +174,12 @@ function attachStatusListener(select, row) {
   });
 }
 
+// ================= Socket.io for live orders =================
 socket.on("newOrder", order => {
-  console.log("New order received:", order);
-  appendOrderRow(order);
+  const selectedDate = orderDateFilter.value;
+  if (!selectedDate || new Date(order.created_at).toISOString().split('T')[0] === selectedDate) {
+    appendOrderRow(order);
+  }
 });
 
 loadOrders();

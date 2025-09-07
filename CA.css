@@ -62,8 +62,6 @@ header .logo img.cart-logo {
   object-fit: contain;
 }
 
-
-
 .container {
   display: flex;
   max-width: 1200px;
